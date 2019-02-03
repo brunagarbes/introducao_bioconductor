@@ -129,4 +129,77 @@ vmatchPattern(pattern = ns5, subject = selectedSet, max.mismatch = 15)
 # Use matchPattern with the single sequence
 matchPattern(ns5, selectedSeq, max.mismatch = 15)
 
+#####################################################################
+#CHAPTER 3 - IRanges and GenomicRanges
 
+# load package IRanges
+library(IRanges)
+
+# start vector 1 to 5 and end 100 
+IRnum1 <- IRanges(start = c(1,2,3,4,5), end = 100)
+
+# end 100 and width 89 and 10
+IRnum2 <- IRanges(end = 100, width = c(89, 10))
+
+# logical argument start = Rle(c(F, T, T, T, F, T, T, T))
+IRlog1 <- IRanges(start = Rle(c(F,T,T,T,F,T,T,T)))
+
+# Printing objects in a list
+print(list(IRnum1 = IRnum1, IRnum2 = IRnum2, IRlog1 = IRlog1))
+
+library(GenomicRanges)
+
+print(seq_intervals)
+myGR = GRanges(seq_intervals)
+
+# Load Package Genomic Ranges
+library(GenomicRanges)
+
+# Print the GRanges object myGR
+myGR
+
+# Check the metadata, if any
+mcols(myGR)
+# load human reference genome hg38
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+
+# assign hg38 to hg, then print it
+hg <- TxDb.Hsapiens.UCSC.hg38.knownGene
+hg
+
+# filter 1: extract all the genes in chromosome X as hg_chrXg, then print it
+hg_chrXg <- genes(hg, filter = list(tx_chrom = c("chrX")))
+hg_chrXg
+
+# filter 2: extract all positive stranded genes in chromosome X as hg_chrXgp, then sort it
+hg_chrXgp <- genes(hg, filter = list(tx_chrom = c("chrX"), tx_strand = "+"))
+sort(hg_chrXgp)
+length(hg_chrXgp)
+length(hg_chrXg)
+
+# Store the overlapping range in rangefound
+rangefound <- subsetByOverlaps(hg_chrX, ABCD1)
+
+# Check names of rangefound
+names(rangefound)
+
+# Check the geneOfInterest 
+ABCD1
+
+# Check rangefound
+rangefound
+
+# load the human transcripts DB to hg
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+hg <- TxDb.Hsapiens.UCSC.hg38.knownGene
+
+# prefilter chromosome X "chrX" using seqlevels()
+seqlevels(hg) <- c("chrX")
+
+# get all transcripts by gene and print it
+hg_chrXt <- transcriptsBy(hg, by = "gene")
+hg_chrXt
+
+# select gene `215` from the transcripts
+hg_chrXt$`215`
+print(myGR)
