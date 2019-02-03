@@ -202,4 +202,90 @@ hg_chrXt
 
 # select gene `215` from the transcripts
 hg_chrXt$`215`
+
+####################################################################
+#CHAPTER 3 - ShortRead
+
+# load ShortRead
+library(ShortRead)
+
+# print fqsample
+fqsample
+
+# class of fqsample
+class(fqsample)
+
+# class sread fqsample
+class(sread(fqsample))
+
+# id fqsample
+id(fqsample)
+
+# load ShortRead
+library(ShortRead)
+
+# set a seed for sampling
+set.seed(1234)
+
+# Use FastqSampler with f and select 100 reads
+fs <- FastqSampler(con = f, n = 100)
+
+# new sample yield
+my_sample <- yield(fs)
+
+# print my_sample
+my_sample
+
+# load ShortRead
+library(ShortRead)
+
+# Check quality
+quality(fqsample)
+
+# Check encoding
+encoding(quality(fqsample))
+
+# Check baseQuality
+qaSummary[["baseQuality"]]
+
+# glimpse nucByCycle
+glimpse(nucByCycle)
+
+# make an awesome plot!
+nucByCycle %>% 
+  # gather the nucleotide letters in alphabet and get a new count column
+  gather(key = alphabet, value = count , -cycle) %>% 
+  ggplot(aes(x = cycle, y =  count, color = alphabet)) +
+  geom_line(size = 0.5 ) +
+  labs(y = "Frequency") +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank())
+
+# Load package ShortRead
+library(ShortRead)
+
+# Check class of fqsample
+class(fqsample)
+
+# filter reads into selectedReads using myStartFilter
+selectedReads <- fqsample[myStartFilter(fqsample)]
+
+# Check class of selectedReads
+class(selectedReads)
+
+# Check detail of selectedReads
+detail(selectedReads)
+
+# Load package Rqc
+library(Rqc)
+
+# Average per cycle quality plot
+rqcCycleAverageQualityPlot(qa)
+
+# Average per cycle quality plot with white background
+rqcCycleAverageQualityPlot(qa) + theme_minimal()
+
+# Read quality plot with white background
+class(qa)
+rqcReadQualityPlot(qa) + theme_minimal()
 print(myGR)
